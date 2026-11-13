@@ -1,5 +1,41 @@
 /* MundoCraft service worker: offline support with a small runtime cache. */
-const CACHE = 'mundocraft-v1'
+const CACHE = 'mundocraft-v2'
+const ART = [
+  'art/blocks/grass_top.png',
+  'art/blocks/dirt.png',
+  'art/blocks/stone.png',
+  'art/blocks/cobblestone.png',
+  'art/blocks/oak_planks.png',
+  'art/blocks/oak_leaves.png',
+  'art/blocks/water.png',
+  'art/blocks/sand.png',
+  'art/blocks/bricks.png',
+  'art/blocks/farmland.png',
+  'art/cubes/gold_block.png',
+  'art/cubes/bookshelf.png',
+  'art/cubes/hay.png',
+  'art/cubes/crafting_table.png',
+  'art/cubes/grass.png',
+  'art/cubes/dirt.png',
+  'art/cubes/stone.png',
+  'art/cubes/cobblestone.png',
+  'art/cubes/oak_planks.png',
+  'art/cubes/oak_leaves.png',
+  'art/cubes/water.png',
+  'art/cubes/sand.png',
+  'art/cubes/bricks.png',
+  'art/farm/chicken.png',
+  'art/farm/cow.png',
+  'art/farm/sheep.png',
+  'art/farm/carrot.png',
+  'art/farm/corn.png',
+  'art/farm/tomato.png',
+  'art/farm/sunflower.png',
+  'art/farm/eggplant.png',
+  'art/farm/cabbage.png',
+  'art/farm/potato.png',
+  'art/farm/pickaxe.png',
+]
 const CORE = [
   './',
   './index.html',
@@ -7,6 +43,7 @@ const CORE = [
   './icon.svg',
   './icon-192.png',
   './icon-512.png',
+  ...ART,
 ]
 
 self.addEventListener('install', (event) => {

@@ -73,7 +73,7 @@ function tapSyllable(value: string, trayIndex: number) {
           <span
             v-for="(part, i) in task.word.parts"
             :key="i"
-            :class="i < placed ? 'tile tile-md tone-grass tile-ok' : 'slot h-16 w-20 text-xl'"
+            :class="i < placed ? 'tile tile-md tone-grass tile-ok' : 'slot h-[72px] w-20 text-xl'"
           >
             {{ i < placed ? part : '?' }}
           </span>

@@ -2,18 +2,19 @@
 import { computed, ref, watch } from 'vue'
 import GameShell from '../../components/GameShell.vue'
 import BlockTile from '../../components/BlockTile.vue'
+import Pictogram from '../../components/Pictogram.vue'
 import { useGame } from '../../lib/game'
 import { goMap } from '../../lib/nav'
 import { nearbyDistractors, pick, ri, shuffle } from '../../lib/rand'
 import { speak } from '../../lib/speech'
 
-const ITEMS = ['🍎', '🍓', '🐤', '🐟', '🌸', '🐝', '🥕', '⭐', '🍇', '🐞']
+const ITEMS = ['chicken', 'cow', 'sheep', 'carrot', 'corn', 'tomato', 'sunflower', 'eggplant', 'cabbage', 'potato']
 const MAX = [5, 10, 20]
 
 function make(_index: number, level: 1 | 2 | 3) {
   const max = MAX[level - 1]
   const n = ri(1, max)
-  return { n, emoji: pick(ITEMS), options: shuffle([n, ...nearbyDistractors(n, 3, max)]) }
+  return { n, item: pick(ITEMS), options: shuffle([n, ...nearbyDistractors(n, 3, max)]) }
 }
 
 const { task, index, total, celebrate, solve, miss, restart } = useGame('m-cantidad', 7, make)
@@ -63,9 +64,10 @@ function drop(value: number, zone: string) {
         <span
           v-for="n in task.n"
           :key="n"
-          class="anim-pop select-none text-4xl leading-none"
-          >{{ task.emoji }}</span
+          class="anim-pop select-none text-5xl leading-none"
         >
+          <Pictogram :name="task.item" />
+        </span>
       </div>
 
       <div

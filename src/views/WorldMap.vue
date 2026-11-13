@@ -4,11 +4,24 @@ import { openSection, SECTIONS, type SectionId } from '../lib/nav'
 import { SECTION_META } from '../lib/sections'
 import { sectionGameIds } from '../games/registry'
 import { progress, sectionStars, toggleSound, toggleVoice, totalStars } from '../lib/progress'
+import { cubeArt, farmArt, tex } from '../lib/art'
+
+const ZONE_ART: Record<SectionId, { texture: string; cube: string; deco?: string }> = {
+  math: { texture: 'grass_top', cube: 'gold_block', deco: 'sunflower' },
+  letters: { texture: 'oak_planks', cube: 'bookshelf' },
+  syllables: { texture: 'farmland', cube: 'hay', deco: 'chicken' },
+  build: { texture: 'cobblestone', cube: 'crafting_table', deco: 'pickaxe' },
+}
 
 const zones = computed(() =>
   SECTIONS.map((id: SectionId) => {
     const meta = SECTION_META[id]
-    return { id, ...meta, stars: sectionStars(sectionGameIds(id)) }
+    return {
+      id,
+      ...meta,
+      ...ZONE_ART[id],
+      stars: sectionStars(sectionGameIds(id)),
+    }
   }),
 )
 </script>
@@ -18,7 +31,7 @@ const zones = computed(() =>
     <header class="map-head">
       <div class="flex-1">
         <h1 class="title">MundoCraft</h1>
-        <p class="text-xs font-extrabold opacity-55">Toca una zona y juega</p>
+        <p class="text-xs font-extrabold opacity-55">Toca un bloque y juega</p>
       </div>
       <div class="star-badge"><span>★</span>{{ totalStars }}</div>
       <button
@@ -41,15 +54,18 @@ const zones = computed(() =>
       </button>
     </header>
 
-    <main class="flex-1">
-      <div class="world">
-        <svg class="world-deco" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-          <path d="M50 -2 L50 102" stroke="#a9743f" stroke-width="9" opacity="0.35" />
-          <path d="M-2 50 L102 50" stroke="#a9743f" stroke-width="9" opacity="0.35" />
-          <circle cx="50" cy="50" r="7" fill="#a9743f" opacity="0.35" />
-          <ellipse cx="6" cy="96" rx="9" ry="5" fill="#4fa8dd" opacity="0.55" />
-          <ellipse cx="95" cy="4" rx="8" ry="5" fill="#4fa8dd" opacity="0.45" />
-        </svg>
+    <main class="flex flex-1 flex-col justify-center">
+      <div class="world" :style="{ backgroundImage: `url(${tex('grass_top')})` }">
+        <div
+          class="world-path world-path-v"
+          :style="{ backgroundImage: `url(${tex('dirt')})` }"
+          aria-hidden="true"
+        />
+        <div
+          class="world-path world-path-h"
+          :style="{ backgroundImage: `url(${tex('dirt')})` }"
+          aria-hidden="true"
+        />
 
         <div class="zone-grid">
           <button
@@ -57,27 +73,35 @@ const zones = computed(() =>
             :key="zone.id"
             type="button"
             class="zone"
-            :class="`zone-${zone.tone}`"
+            :style="{ backgroundImage: `url(${tex(zone.texture)})` }"
             @click="openSection(zone.id)"
           >
             <span v-if="zone.id !== 'build'" class="zone-stars">★ {{ zone.stars }}</span>
-            <span class="zone-emoji anim-float">{{ zone.emoji }}</span>
-            <span class="zone-name">{{ zone.name }}</span>
-            <span class="zone-sub">{{ zone.sub }}</span>
-            <span class="zone-pixels">
-              <span v-for="(pixel, i) in zone.pixels" :key="i">{{ pixel }}</span>
+
+            <img class="zone-cube anim-float" :src="cubeArt(zone.cube)" alt="" draggable="false" />
+
+            <span
+              class="zone-sign"
+              :style="{ backgroundImage: `url(${tex('oak_planks')})` }"
+            >
+              <span class="zone-emoji">{{ zone.emoji }}</span>
+              <span class="zone-name">{{ zone.name }}</span>
             </span>
+
+            <span class="zone-sub">{{ zone.sub }}</span>
+
+            <img
+              v-if="zone.deco"
+              class="zone-deco"
+              :src="farmArt(zone.deco)"
+              alt=""
+              draggable="false"
+            />
           </button>
         </div>
       </div>
 
-      <p class="map-tip">👆 Elige qué quieres aprender hoy</p>
+      <p class="map-tip">⛏️ Elige qué quieres aprender hoy</p>
     </main>
   </div>
 </template>
-
-<style scoped>
-.map-head {
-  position: relative;
-}
-</style>

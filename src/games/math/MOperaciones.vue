@@ -81,7 +81,7 @@ function drop(value: number, zone: string) {
           <span>=</span>
           <span
             data-drop="respuesta"
-            class="slot h-16 w-16 text-2xl"
+            class="slot h-[72px] w-[72px] text-2xl"
             :class="answered != null ? 'slot-ok' : 'slot-hot'"
           >
             {{ answered ?? '?' }}

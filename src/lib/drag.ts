@@ -22,6 +22,7 @@ export const dragState = reactive({
 let dropFn: DropFn | null = null
 let selectionFn: DropFn | null = null
 let moved = false
+let wasSelected = false
 let startX = 0
 let startY = 0
 let installed = false
@@ -39,8 +40,24 @@ function install() {
 
 function zoneAt(x: number, y: number): string | null {
   const el = document.elementFromPoint(x, y) as Element | null
-  const zone = el?.closest?.('[data-drop]')
-  return zone ? zone.getAttribute('data-drop') : null
+  const direct = el?.closest?.('[data-drop]')
+  if (direct) return direct.getAttribute('data-drop')
+
+  // "Snap" táctil: si el dedo suelta cerca de una zona, cuenta como acierto.
+  let best: Element | null = null
+  let bestDistance = 52
+  document.querySelectorAll('[data-drop]').forEach((zone) => {
+    const rect = zone.getBoundingClientRect()
+    if (rect.width === 0 && rect.height === 0) return
+    const dx = Math.max(rect.left - x, 0, x - rect.right)
+    const dy = Math.max(rect.top - y, 0, y - rect.bottom)
+    const distance = Math.hypot(dx, dy)
+    if (distance < bestDistance) {
+      bestDistance = distance
+      best = zone
+    }
+  })
+  return best ? best.getAttribute('data-drop') : null
 }
 
 function onMove(e: PointerEvent) {
@@ -55,6 +72,8 @@ function onUp(e: PointerEvent) {
   if (!dragState.active) return
   const ghost = dragState.ghost
   const fn = dropFn
+  const wasAlreadySelected = wasSelected
+  wasSelected = false
   dragState.active = false
   dragState.ghost = null
   dropFn = null
@@ -65,12 +84,15 @@ function onUp(e: PointerEvent) {
     return
   }
 
-  // No movement: treat the tap as a selection so the child can tap the target.
-  if (dragState.selection?.id === ghost.id) {
+  // Tocar la ficha ya seleccionada la deselecciona.
+  if (wasAlreadySelected) {
     dragState.selection = null
     selectionFn = null
+    sfx.tap()
     return
   }
+
+  // No movement: treat the tap as a selection so the child can tap the target.
   dragState.selection = ghost
   selectionFn = fn
   sfx.tap()
@@ -78,13 +100,14 @@ function onUp(e: PointerEvent) {
   clearTimer = window.setTimeout(() => {
     dragState.selection = null
     selectionFn = null
-  }, 9000)
+  }, 12000)
 }
 
 function onCancel() {
   dragState.active = false
   dragState.ghost = null
   dropFn = null
+  wasSelected = false
 }
 
 function onGlobalDown(e: PointerEvent) {
@@ -108,7 +131,8 @@ export function startDrag(ev: PointerEvent, ghost: Ghost, onDropFn: DropFn) {
   dragState.active = true
   moved = false
   dropFn = onDropFn
-  if (dragState.selection?.id === ghost.id) {
+  wasSelected = dragState.selection?.id === ghost.id
+  if (wasSelected) {
     dragState.selection = null
     selectionFn = null
   }

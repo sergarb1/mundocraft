@@ -1,57 +1,74 @@
 # Recursos gráficos · MundoCraft
 
-## Decisión
+## Resumen
 
-MundoCraft **no incluye archivos gráficos de terceros**. Todo el arte es original y se genera en el propio código:
-
-- **Bloques, botones, insignias y el mundo**: CSS (gradientes, sombras duras y texturas de píxel con `repeating-linear-gradient`) y SVG (decoración del mapa, iconos).
-- **Pictogramas de los ejercicios** (frutas, animales, objetos): **emoji del sistema**, renderizado por el dispositivo (Noto Color Emoji en Android, Apple Color Emoji en iOS). No se redistribuye ninguna fuente de emoji.
-- **Iconos de la app**: `public/icon.svg` y los PNG generados por `scripts/make-icons.mjs` (pixel art propio, dibujado en código).
-
-Motivos:
-
-1. Coherencia visual total entre mapa, juegos y tiendas de aplicaciones.
-2. Licencias limpias: no hay que atribuir ni arrastrar condiciones de terceros.
-3. Funcionamiento **offline** completo y un paquete pequeño (≈150 kB de JS).
-4. El esfuerzo se dedica a los minijuegos, que es el producto.
-
-No se ha utilizado ningún recurso oficial de Minecraft ni material con marca registrada.
-
-## Atribución
-
-No se requiere atribución: el arte y los iconos son originales y los emoji pertenecen al sistema operativo del usuario.
-
-## Fuentes consultadas (CC0 / permisivas)
-
-Si en el futuro se quieren sustituir los bloques procedurales por tilesets, estos son los bancos recomendados y su licencia:
-
-| Fuente | Enlace | Licencia | Uso previsto |
+| Recurso | Origen | Licencia | Archivos |
 | --- | --- | --- | --- |
-| Kenney | <https://kenney.nl/assets> | CC0 1.0 | Tilesets de bloques, UI y personajes |
-| Quaternius | <https://quaternius.com> | CC0 1.0 | Packs 3D/2D low-poly y voxel |
-| OpenGameArt | <https://opengameart.org> | Variable (comprobar cada pack) | Fondos, tiles y objetos |
-| itch.io (assets gratuitos) | <https://itch.io/game-assets/free> | Variable (comprobar cada pack) | Packs de pixel art y fuentes |
-| Twemoji (referencia) | <https://github.com/jdecked/twemoji> | CC-BY 4.0 | Emoji consistentes si se empaquetan |
+| Bloques y cubos | Generados por `scripts/make-art.mjs` (arte original inspirado en voxel) | Propia / MIT | `public/art/blocks/*.png`, `public/art/cubes/*.png` |
+| Animales, cultivos y herramientas | **Kenney · Tiny Farm** | **CC0 1.0** | `public/art/farm/*.png` |
+| Pictogramas de interfaz | Emoji del sistema operativo | — | Renderizado por el dispositivo |
+| Iconos de la app | `public/icon.svg` + `scripts/make-icons.mjs` | Propia / MIT | `public/icon-*.png` |
 
-### Cómo integrar un pack
+No se utiliza **ningún recurso oficial de Minecraft**: ni texturas, ni modelos, ni sonidos, ni la marca. El mundo está hecho con texturas de bloques originales dibujadas en código.
 
-1. Descargar solo recursos **CC0** o permisivos y guardar el archivo de licencia junto al pack.
-2. Colocarlos en `src/assets/` (Vite los empaqueta y versiona) o en `public/` si se referencian por URL.
-3. Sustituir las clases de bloque (`.tile`, `.cell-*`) por `background-image` con `image-rendering: pixelated`.
-4. Añadir la entrada en la tabla de arriba con autor, enlace y licencia.
+## Texturas de bloques (originales)
+
+Generadas con un script determinista, sin dependencias:
+
+```bash
+npm run art   # node scripts/make-art.mjs
+```
+
+- **19 texturas 16×16**: `grass_top`, `grass_side`, `dirt`, `stone`, `cobblestone`, `oak_planks`, `oak_log`, `oak_log_top`, `oak_leaves`, `water`, `sand`, `bricks`, `crafting_top`, `bookshelf`, `farmland`, `wheat`, `flower`, `tall_grass`, `gold_block`.
+- **14 cubos isométricos 64×64** para carteles y paletas: `grass`, `dirt`, `stone`, `cobblestone`, `oak_planks`, `oak_log`, `oak_leaves`, `water`, `sand`, `bricks`, `gold_block`, `crafting_table`, `bookshelf`, `hay`.
+- Se escalan con `image-rendering: pixelated` para conservar el píxel nítido en móvil y tablet.
+
+Colores base: césped `#6fb444`, tierra `#8b5a2b`, piedra `#8c8c8c`, tablones `#b08442`, agua `#3d76c9`, arena `#e3d5a0`, ladrillo `#a5523b`, oro `#f2c94c`.
+
+## Kenney · Tiny Farm (CC0 1.0)
+
+- **Autor:** Kenney (<https://kenney.nl>)
+- **Pack:** <https://kenney.nl/assets/tiny-farm>
+- **Espejo de descarga utilizado:** <https://opengameart.org/content/tiny-farm>
+- **Licencia:** Creative Commons Zero 1.0 — <https://creativecommons.org/publicdomain/zero/1.0/>
+  - Uso personal, educativo y comercial permitido.
+  - Atribución no obligatoria (se acredita igualmente aquí).
+- **Formato:** PNG 16×16 con transparencia, tile size 16.
+
+Sprites usados (índice dentro del tilesheet original de 12 columnas):
+
+| Archivo | Tile | Contenido |
+| --- | --- | --- |
+| `chicken.png` | `tile_0122` | Gallina |
+| `cow.png` | `tile_0121` | Vaca |
+| `sheep.png` | `tile_0120` | Oveja |
+| `carrot.png` | `tile_0008` | Zanahoria |
+| `corn.png` | `tile_0032` | Mazorca de maíz |
+| `tomato.png` | `tile_0044` | Tomate |
+| `eggplant.png` | `tile_0020` | Berenjena |
+| `cabbage.png` | `tile_0054` | Col |
+| `potato.png` | `tile_0055` | Patata |
+| `sunflower.png` | `tile_0083` | Girasol |
+| `wheat_sheaf.png` | `tile_0066` | Gavilla de trigo |
+| `pickaxe.png` | `tile_0084` | Pico |
+| `axe.png` | `tile_0086` | Hacha |
+| `hammer.png` | `tile_0087` | Mazo |
+
+Los archivos copiados conservan el píxel original; el proyecto incluye esta atribución y la licencia CC0 del pack.
+
+## Emoji
+
+El resto de pictogramas de interfaz (🔢, ✏️, 🗣️, 🏠, 🌟…) son emoji renderizados por el sistema (Noto Color Emoji en Android, Apple Color Emoji en iOS). No se redistribuye ninguna fuente.
 
 ## Tipografía
 
-Se usa la pila de fuentes del sistema (`ui-rounded`, Trebuchet MS, Segoe UI), sin fuentes web externas, para que la app cargue al instante y funcione sin conexión.
+Pila de fuentes del sistema (`ui-rounded`, Trebuchet MS, Segoe UI): sin fuentes web externas, carga inmediata y offline.
 
-## Paleta
+## Cómo sustituir o ampliar el arte
 
-| Color | Uso |
-| --- | --- |
-| `#7cc243` / `#4c8b24` | Césped del mapa y zona de matemáticas |
-| `#ffc93c` / `#f2a91c` | Estrellas, recompensas y pistas |
-| `#8b5a2b` | Madera, tierra y botones de sílabas |
-| `#9fd6ff` | Cielo, agua y zona de sílabas |
-| `#2b2118` | Texto y contornos |
+1. Añadir el PNG a `public/art/blocks` (16×16) o `public/art/farm` (16×16).
+2. Registrarlo en `src/lib/art.ts` (o en `scripts/make-art.mjs` si es procedural).
+3. Añadirlo a `ART` en `public/sw.js` para que quede disponible offline.
+4. Documentar autor, enlace y licencia en este archivo.
 
-Las animaciones (nubes, flotación, confeti, pulso del punto de inicio) están hechas con CSS y respetan `prefers-reduced-motion`.
+Recursos CC0 recomendados si se quiere ampliar: [Kenney](https://kenney.nl/assets) (CC0), [Quaternius](https://quaternius.com) (CC0), [OpenGameArt](https://opengameart.org) (comprobar licencia por pack). No usar material oficial de Minecraft ni packs derivados de sus texturas.

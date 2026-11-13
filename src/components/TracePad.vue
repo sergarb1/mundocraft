@@ -14,8 +14,8 @@ const props = withDefaults(
     hint?: string
   }>(),
   {
-    tolerance: 7,
-    completeRatio: 0.88,
+    tolerance: 9,
+    completeRatio: 0.85,
     showStart: true,
     freeMode: false,
     color: '#f97316',

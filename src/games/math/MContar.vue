@@ -2,18 +2,19 @@
 import { computed, ref, watch } from 'vue'
 import GameShell from '../../components/GameShell.vue'
 import BlockTile from '../../components/BlockTile.vue'
+import Pictogram from '../../components/Pictogram.vue'
 import { useGame } from '../../lib/game'
 import { goMap } from '../../lib/nav'
 import { nearbyDistractors, pick, range, ri, shuffle } from '../../lib/rand'
 import { speak } from '../../lib/speech'
 import { sfx } from '../../lib/sfx'
 
-const ITEMS = ['🍎', '🍓', '🐤', '🐟', '🌸', '🐝', '🥕', '⭐', '🍇', '🐞']
+const ITEMS = ['chicken', 'cow', 'sheep', 'carrot', 'corn', 'tomato', 'sunflower', 'eggplant', 'cabbage', 'potato']
 const MAX = [6, 10, 16]
 
 type Task = {
   n: number
-  emoji: string
+  item: string
   options: number[]
   items: { id: number; rotate: number; dx: number; dy: number }[]
 }
@@ -23,7 +24,7 @@ function make(_index: number, level: 1 | 2 | 3): Task {
   const n = ri(3, max)
   return {
     n,
-    emoji: pick(ITEMS),
+    item: pick(ITEMS),
     options: shuffle([n, ...nearbyDistractors(n, 3, max)]),
     items: range(1, n).map((id) => ({
       id,
@@ -95,17 +96,16 @@ function drop(value: number, zone: string) {
     @restart="restart"
   >
     <div class="flex flex-1 flex-col justify-center gap-3">
-      <div class="panel flex flex-wrap content-center justify-center gap-1 px-2 py-4">
-        <button
+      <div class="panel flex flex-wrap content-center justify-center gap-1 px-2 py-4">          <button
           v-for="item in task.items"
           :key="item.id"
           type="button"
-          class="relative grid h-14 w-14 place-items-center rounded-xl text-4xl leading-none transition"
+          class="relative grid h-16 w-16 place-items-center rounded-xl text-5xl leading-none transition"
           :class="tapOrder(item.id) ? 'bg-amber-100' : ''"
           :style="{ transform: `rotate(${item.rotate}deg) translate(${item.dx}px, ${item.dy}px)` }"
           @pointerdown.prevent="tapItem(item.id)"
         >
-          {{ task.emoji }}
+          <Pictogram :name="task.item" />
           <span
             v-if="tapOrder(item.id)"
             class="absolute -right-1 -top-1 grid h-6 w-6 place-items-center rounded-full bg-emerald-500 text-xs font-black text-white shadow"

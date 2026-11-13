@@ -72,7 +72,7 @@ function drop(value: string, zone: string) {
           <div
             v-for="(part, i) in task.word.parts"
             :key="i"
-            class="slot h-16 w-20 text-2xl"
+            class="slot h-[72px] w-20 text-2xl"
             :data-drop="`slot-${i}`"
             :class="filled[i] ? 'slot-ok' : ''"
           >

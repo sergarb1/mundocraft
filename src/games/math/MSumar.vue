@@ -2,13 +2,14 @@
 import { computed, ref, watch } from 'vue'
 import GameShell from '../../components/GameShell.vue'
 import BlockTile from '../../components/BlockTile.vue'
+import Pictogram from '../../components/Pictogram.vue'
 import { useGame } from '../../lib/game'
 import { goMap } from '../../lib/nav'
 import { nearbyDistractors, pick, ri, shuffle } from '../../lib/rand'
 import { speak } from '../../lib/speech'
 import { sfx } from '../../lib/sfx'
 
-const ITEMS = ['🍎', '🍓', '🐤', '🐟', '🌸', '🥕', '⭐', '🍇']
+const ITEMS = ['chicken', 'cow', 'sheep', 'carrot', 'corn', 'tomato', 'sunflower', 'eggplant']
 const MAX_SUM = [5, 10, 20]
 
 function make(_index: number, level: 1 | 2 | 3) {
@@ -16,7 +17,7 @@ function make(_index: number, level: 1 | 2 | 3) {
   const a = ri(1, max - 1)
   const b = ri(1, max - a)
   const sum = a + b
-  return { a, b, sum, emoji: pick(ITEMS), options: shuffle([sum, ...nearbyDistractors(sum, 3, max)]) }
+  return { a, b, sum, item: pick(ITEMS), options: shuffle([sum, ...nearbyDistractors(sum, 3, max)]) }
 }
 
 const { task, index, total, celebrate, solve, miss, restart } = useGame('m-sumar', 7, make)
@@ -88,7 +89,9 @@ function drop(value: number, zone: string) {
           :class="mergedA ? 'opacity-35' : ''"
           @pointerdown.prevent="merge('a')"
         >
-          <span v-for="n in task.a" :key="`a${n}`" class="text-3xl leading-none">{{ task.emoji }}</span>
+          <span v-for="n in task.a" :key="`a${n}`" class="text-3xl leading-none">
+            <Pictogram :name="task.item" />
+          </span>
         </button>
         <span class="text-2xl font-black">+</span>
         <button
@@ -97,7 +100,9 @@ function drop(value: number, zone: string) {
           :class="mergedB ? 'opacity-35' : ''"
           @pointerdown.prevent="merge('b')"
         >
-          <span v-for="n in task.b" :key="`b${n}`" class="text-3xl leading-none">{{ task.emoji }}</span>
+          <span v-for="n in task.b" :key="`b${n}`" class="text-3xl leading-none">
+            <Pictogram :name="task.item" />
+          </span>
         </button>
       </div>
 
@@ -109,7 +114,7 @@ function drop(value: number, zone: string) {
           Toca los grupos para juntarlos
         </span>
         <span v-for="n in basketCount" :key="`c${n}`" class="anim-pop text-3xl leading-none">
-          {{ task.emoji }}
+          <Pictogram :name="task.item" />
         </span>
       </div>
 

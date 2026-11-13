@@ -2,13 +2,14 @@
 import { computed, ref, watch } from 'vue'
 import GameShell from '../../components/GameShell.vue'
 import BlockTile from '../../components/BlockTile.vue'
+import Pictogram from '../../components/Pictogram.vue'
 import { useGame } from '../../lib/game'
 import { goMap } from '../../lib/nav'
 import { nearbyDistractors, pick, ri, shuffle } from '../../lib/rand'
 import { speak } from '../../lib/speech'
 import { sfx } from '../../lib/sfx'
 
-const ITEMS = ['🍎', '🍓', '🐤', '🐟', '🌸', '🥕', '⭐', '🍇']
+const ITEMS = ['chicken', 'cow', 'sheep', 'carrot', 'corn', 'tomato', 'sunflower', 'eggplant']
 const LIMITS = [
   { max: 6, maxTake: 3 },
   { max: 10, maxTake: 5 },
@@ -25,7 +26,7 @@ function make(_index: number, level: 1 | 2 | 3) {
     n,
     k,
     result,
-    emoji: pick(ITEMS),
+    item: pick(ITEMS),
     options: shuffle([result, ...nearbyDistractors(result, 3, maxOption)]),
   }
 }
@@ -91,11 +92,11 @@ function drop(value: number, zone: string) {
           v-for="i in task.n"
           :key="i"
           type="button"
-          class="grid h-14 w-14 place-items-center rounded-xl text-4xl leading-none transition-all duration-300"
+          class="grid h-16 w-16 place-items-center rounded-xl text-4xl leading-none transition-all duration-300"
           :class="removed.includes(i) ? 'scale-50 opacity-20 grayscale' : ''"
           @pointerdown.prevent="take(i)"
         >
-          {{ task.emoji }}
+          <Pictogram :name="task.item" />
         </button>
       </div>
 

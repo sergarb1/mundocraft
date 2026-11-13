@@ -75,7 +75,7 @@ function drop(value: number, zone: string) {
         <div
           v-for="(value, i) in task.values"
           :key="i"
-          class="slot h-16 w-16"
+          class="slot h-[72px] w-[72px]"
           :data-drop="`gap-${i}`"
           :class="filled[i] != null ? 'slot-ok' : ''"
         >

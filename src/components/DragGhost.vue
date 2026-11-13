@@ -1,5 +1,11 @@
 <script setup lang="ts">
+import { watchEffect } from 'vue'
 import { dragState } from '../lib/drag'
+
+// Mientras hay una ficha seleccionada, todas las zonas de destino brillan.
+watchEffect(() => {
+  document.body.classList.toggle('has-selection', !!dragState.selection)
+})
 </script>
 
 <template>

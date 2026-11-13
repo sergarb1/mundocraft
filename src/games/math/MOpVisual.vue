@@ -2,16 +2,17 @@
 import { computed, ref, watch } from 'vue'
 import GameShell from '../../components/GameShell.vue'
 import BlockTile from '../../components/BlockTile.vue'
+import Pictogram from '../../components/Pictogram.vue'
 import { useGame } from '../../lib/game'
 import { goMap } from '../../lib/nav'
 import { nearbyDistractors, pick, ri, shuffle } from '../../lib/rand'
 import { speak } from '../../lib/speech'
 import { sfx } from '../../lib/sfx'
 
-const ITEMS = ['🍎', '🍓', '🐤', '🌸', '🥕', '🍇']
+const ITEMS = ['chicken', 'cow', 'sheep', 'carrot', 'corn', 'tomato']
 const MAX_SUM = [5, 10, 12]
 
-type Pair = { id: number; a: number; b: number; emoji: string }
+type Pair = { id: number; a: number; b: number; item: string }
 type Task = { pairs: Pair[]; ops: Pair[] }
 
 function make(_index: number, level: 1 | 2 | 3): Task {
@@ -25,10 +26,10 @@ function make(_index: number, level: 1 | 2 | 3): Task {
     const key = `${a}+${b}`
     if (used.has(key)) continue
     used.add(key)
-    pairs.push({ id: pairs.length, a, b, emoji: pick(ITEMS) })
+    pairs.push({ id: pairs.length, a, b, item: pick(ITEMS) })
   }
   while (pairs.length < 3) {
-    pairs.push({ id: pairs.length, a: pairs.length + 1, b: 1, emoji: '⭐' })
+    pairs.push({ id: pairs.length, a: pairs.length + 1, b: 1, item: 'sunflower' })
   }
   return { pairs, ops: shuffle(pairs) }
 }
@@ -108,9 +109,13 @@ function drop(id: number, zone: string) {
               badZone === `visual-${p.id}` ? 'ring-4 ring-rose-400' : '',
             ]"
           >
-            <span v-for="n in p.a" :key="`va${n}`" class="text-2xl leading-none">{{ p.emoji }}</span>
+            <span v-for="n in p.a" :key="`va${n}`" class="text-2xl leading-none">
+              <Pictogram :name="p.item" />
+            </span>
             <span class="px-1 text-xl font-black opacity-60">+</span>
-            <span v-for="n in p.b" :key="`vb${n}`" class="text-2xl leading-none">{{ p.emoji }}</span>
+            <span v-for="n in p.b" :key="`vb${n}`" class="text-2xl leading-none">
+              <Pictogram :name="p.item" />
+            </span>
             <span v-if="matched.includes(p.id)" class="ml-1 text-xl">✅</span>
           </div>
         </div>

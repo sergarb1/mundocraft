@@ -9,7 +9,8 @@ App: **[sergarb1.github.io/mundocraft](https://sergarb1.github.io/mundocraft/)**
 - El **mapa** solo sirve para elegir qué aprender: cuatro zonas grandes, sin movimiento, sin misiones y sin inventarios.
 - El producto son los **28 minijuegos**: cada uno tiene una mecánica visual (arrastrar, tocar, ordenar, dibujar) y una instrucción corta, con voz en español.
 - Sin vidas, sin cronómetros, sin pantallas de derrota. Los errores se corrigen probando otra vez y las pistas aparecen solas.
-- Diseñado primero para **móvil y tablet**: botones grandes, `Pointer Events`, tolerancia al dedo y sin necesidad de zoom.
+- Diseñado primero para **móvil y tablet**: botones grandes (≥ 60 px), `Pointer Events` y **snap** al soltar cerca de una zona, tolerancia amplia al trazar, vibración suave y sin necesidad de zoom.
+- Estética de **mundo de bloques** con texturas originales 16×16 (césped, tierra, piedra, tablones, agua…) y sprites CC0 de granja.
 - El progreso (estrellas, nivel adaptativo y mundo construido) se guarda en `localStorage`.
 
 ## Juegos incluidos
@@ -69,7 +70,11 @@ Cada push a `main` compila y publica `dist/` en GitHub Pages mediante `.github/w
 
 ## Recursos y licencias
 
-Todo el arte es propio y procedural (CSS/SVG) y los pictogramas son emoji del sistema. Ver [ASSETS.md](ASSETS.md).
+- **Bloques y cubos:** arte original generado en código (`npm run art`).
+- **Animales y cultivos:** Kenney · Tiny Farm, **CC0 1.0** (descargado de OpenGameArt).
+- **Emoji e iconos:** emoji del sistema + iconos propios.
+
+No se usa ningún recurso oficial de Minecraft. Detalle completo en [ASSETS.md](ASSETS.md).
 
 ## Licencia
 
