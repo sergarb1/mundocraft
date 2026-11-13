@@ -84,7 +84,7 @@ function drop(value: number, zone: string) {
             class="slot h-[72px] w-[72px] text-2xl"
             :class="answered != null ? 'slot-ok' : 'slot-hot'"
           >
-            {{ answered ?? '?' }}
+            <span :class="answered != null ? 'anim-pop' : 'slot-q'">{{ answered ?? '?' }}</span>
           </span>
         </div>
 

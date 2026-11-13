@@ -90,7 +90,7 @@ function dropSyllable(value: string, zone: string | null) {
             ]"
           >
             <span v-if="i < placed" class="anim-pop text-2xl">{{ part }}</span>
-            <span v-else class="text-xl font-black opacity-60">?</span>
+            <span v-else class="slot-q">?</span>
           </div>
         </div>
       </div>

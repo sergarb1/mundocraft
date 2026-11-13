@@ -111,7 +111,7 @@ function drop(value: number, zone: string) {
           class="slot h-24 w-24 flex-col"
           :class="answered != null ? 'slot-ok' : doneTaking ? 'slot-hot' : ''"
         >
-          <span class="text-4xl font-black">{{ answered ?? '?' }}</span>
+          <span :class="answered != null ? 'text-4xl font-black anim-pop' : 'slot-q'">{{ answered ?? '?' }}</span>
         </div>
         <div class="flex flex-wrap justify-center gap-2">
           <BlockTile

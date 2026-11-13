@@ -77,7 +77,7 @@ function drop(value: string, zone: string) {
             :class="filled[i] ? 'slot-ok' : ''"
           >
             <span v-if="filled[i]" class="anim-pop">{{ filled[i] }}</span>
-            <span v-else class="opacity-55">?</span>
+            <span v-else class="slot-q">?</span>
           </div>
         </div>
       </div>

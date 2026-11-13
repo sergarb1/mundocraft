@@ -83,7 +83,7 @@ function drop(value: number, zone: string) {
           <span v-else-if="!task.missing.includes(value)" class="text-2xl font-black opacity-45">
             {{ value }}
           </span>
-          <span v-else class="text-2xl font-black opacity-30">?</span>
+          <span v-else class="slot-q">?</span>
         </div>
         <div class="grid h-16 w-16 place-items-center text-4xl">🚀</div>
       </div>

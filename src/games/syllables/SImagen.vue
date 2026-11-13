@@ -66,7 +66,7 @@ function drop(value: string, zone: string) {
         <span class="text-6xl leading-none">{{ task.word.emoji }}</span>
         <div class="flex flex-wrap items-center justify-center gap-1">
           <span class="slot h-12 w-16 text-xl" :class="answered ? 'slot-ok' : 'slot-hot'">
-            {{ answered ? task.first : '?' }}
+            <span :class="answered ? 'anim-pop' : 'slot-q'">{{ answered ? task.first : '?' }}</span>
           </span>
           <span
             v-for="(part, i) in task.word.parts.slice(1)"

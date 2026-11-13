@@ -76,7 +76,7 @@ function drop(value: number, zone: string) {
           class="slot h-24 w-24 flex-col"
           :class="filled.prev != null ? 'slot-ok' : badZone === 'prev' ? 'slot-bad' : ''"
         >
-          <span class="text-3xl font-black">{{ filled.prev ?? '?' }}</span>
+          <span :class="filled.prev != null ? 'text-3xl font-black' : 'slot-q'">{{ filled.prev ?? '?' }}</span>
           <span class="text-[0.65rem] font-extrabold uppercase opacity-50">antes</span>
         </div>
 
@@ -89,7 +89,7 @@ function drop(value: number, zone: string) {
           class="slot h-24 w-24 flex-col"
           :class="filled.next != null ? 'slot-ok' : badZone === 'next' ? 'slot-bad' : ''"
         >
-          <span class="text-3xl font-black">{{ filled.next ?? '?' }}</span>
+          <span :class="filled.next != null ? 'text-3xl font-black' : 'slot-q'">{{ filled.next ?? '?' }}</span>
           <span class="text-[0.65rem] font-extrabold uppercase opacity-50">después</span>
         </div>
       </div>

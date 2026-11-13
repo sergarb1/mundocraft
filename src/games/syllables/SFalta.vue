@@ -73,7 +73,7 @@ function drop(value: string, zone: string) {
               class="slot h-16 w-20 text-2xl"
               :class="filled ? 'slot-ok' : 'slot-hot'"
             >
-              {{ filled ?? '?' }}
+              <span :class="filled ? 'anim-pop' : 'slot-q'">{{ filled ?? '?' }}</span>
             </span>
             <span v-else class="tile tile-md tone-paper" style="cursor: default">{{ part }}</span>
           </template>
