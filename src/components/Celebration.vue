@@ -2,7 +2,24 @@
 import { computed } from 'vue'
 import { motivation } from '../lib/praise'
 
-defineProps<{ stars?: number }>()
+withDefaults(
+  defineProps<{
+    stars?: number
+    emoji?: string
+    title?: string
+    sub?: string
+    againLabel?: string
+    homeLabel?: string
+  }>(),
+  {
+    emoji: '🌟',
+    title: '',
+    sub: '',
+    againLabel: '🔄 Otra vez',
+    homeLabel: '🏠 Mapa',
+  },
+)
+
 const emit = defineEmits<{ again: []; home: [] }>()
 
 const colors = ['#ffc93c', '#ff7b8a', '#6cc7f5', '#8fdc5b', '#c58cff', '#ffa94d']
@@ -36,12 +53,16 @@ const pieces = computed(() =>
       />
     </div>
     <div class="celebrate-card">
-      <div class="celebrate-star">🌟</div>
-      <h2 class="celebrate-title">{{ motivation.text }}</h2>
-      <p class="celebrate-sub">Has ganado una estrella</p>
+      <div class="celebrate-star">{{ emoji }}</div>
+      <h2 class="celebrate-title">{{ title || motivation.text }}</h2>
+      <p class="celebrate-sub">{{ sub || 'Has ganado una estrella' }}</p>
       <div class="celebrate-actions">
-        <button type="button" class="big-btn tone-grass" @click="emit('again')">🔄 Otra vez</button>
-        <button type="button" class="big-btn tone-paper" @click="emit('home')">🏠 Mapa</button>
+        <button type="button" class="big-btn tone-grass" @click="emit('again')">
+          {{ againLabel }}
+        </button>
+        <button type="button" class="big-btn tone-paper" @click="emit('home')">
+          {{ homeLabel }}
+        </button>
       </div>
     </div>
   </div>

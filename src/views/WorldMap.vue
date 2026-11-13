@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted } from 'vue'
-import { openSection, SECTIONS, type SectionId } from '../lib/nav'
+import { openMission, openSection, SECTIONS, type SectionId } from '../lib/nav'
 import { SECTION_META } from '../lib/sections'
 import { sectionGameIds } from '../games/registry'
 import { progress, sectionStars, toggleSound, toggleVoice, totalStars } from '../lib/progress'
 import { cubeArt, farmArt, tex } from '../lib/art'
 import { motivate, motivation } from '../lib/praise'
+import { install, installApp, showInstall } from '../lib/install'
 
 const ZONE_ART: Record<SectionId, { texture: string; cube: string; deco?: string }> = {
   math: { texture: 'grass_top', cube: 'gold_block', deco: 'sunflower' },
@@ -65,6 +66,15 @@ const zones = computed(() =>
     </header>
 
     <main class="flex flex-1 flex-col justify-center">
+      <button type="button" class="mission-banner" @click="openMission">
+        <span class="mission-banner-emoji" aria-hidden="true">🎯</span>
+        <span class="flex-1 min-w-0 text-left">
+          <span class="mission-banner-name">Misiones</span>
+          <span class="mission-banner-sub">3 pruebas sorpresa</span>
+        </span>
+        <span class="mission-banner-go" aria-hidden="true">▶</span>
+      </button>
+
       <div class="world" :style="{ backgroundImage: `url(${tex('grass_top')})` }">
         <div
           class="world-path world-path-v"
@@ -112,6 +122,55 @@ const zones = computed(() =>
       </div>
 
       <p class="map-tip">⛏️ {{ motivation.text }}</p>
+
+      <div v-if="showInstall" class="map-foot">
+        <button type="button" class="install-btn" @click="installApp">
+          <span aria-hidden="true">📲</span>
+          Instalar para móvil
+        </button>
+      </div>
     </main>
+
+    <div v-if="install.help" class="install-backdrop" @click.self="install.help = false">
+      <div class="install-card" role="dialog" aria-modal="true" aria-labelledby="install-title">
+        <div class="install-emoji" aria-hidden="true">📲</div>
+        <h2 id="install-title" class="install-title">Instalar MundoCraft</h2>
+        <p class="install-sub">Se abrirá como una app, sin barra del navegador.</p>
+
+        <ol v-if="install.ios" class="install-steps">
+          <li>
+            <span class="install-num">1</span>
+            <span>Toca <b>Compartir</b> <span aria-hidden="true">⬆️</span> en Safari.</span>
+          </li>
+          <li>
+            <span class="install-num">2</span>
+            <span>Elige <b>Añadir a pantalla de inicio</b>.</span>
+          </li>
+          <li>
+            <span class="install-num">3</span>
+            <span>Toca <b>Añadir</b> y listo.</span>
+          </li>
+        </ol>
+
+        <ol v-else class="install-steps">
+          <li>
+            <span class="install-num">1</span>
+            <span>Abre el menú de opciones del navegador.</span>
+          </li>
+          <li>
+            <span class="install-num">2</span>
+            <span>Elige <b>Instalar app</b> o <b>Añadir a pantalla de inicio</b>.</span>
+          </li>
+          <li>
+            <span class="install-num">3</span>
+            <span>Confirma y listo.</span>
+          </li>
+        </ol>
+
+        <button type="button" class="big-btn tone-grass" @click="install.help = false">
+          ¡Entendido!
+        </button>
+      </div>
+    </div>
   </div>
 </template>

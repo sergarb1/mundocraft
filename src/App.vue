@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { nav } from './lib/nav'
 import WorldMap from './views/WorldMap.vue'
+import MissionView from './views/MissionView.vue'
 import SectionView from './views/SectionView.vue'
 import GameView from './views/GameView.vue'
 import DragGhost from './components/DragGhost.vue'
@@ -19,7 +20,8 @@ const gameId = computed(() => {
 </script>
 
 <template>
-  <WorldMap v-if="mode === 'map'" />
+  <MissionView v-if="nav.mission" />
+  <WorldMap v-else-if="mode === 'map'" />
   <SectionView v-else-if="mode === 'section' && nav.section" :section="nav.section" />
   <GameView v-else-if="nav.section" :key="gameId" :section="nav.section" :game-id="gameId" />
   <DragGhost />
