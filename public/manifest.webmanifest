@@ -1,0 +1,21 @@
+{
+  "name": "MundoCraft · Juegos para aprender",
+  "short_name": "MundoCraft",
+  "description": "Juegos educativos infantiles de matemáticas, letras, sílabas y construcción libre con estética de bloques.",
+  "lang": "es",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#bfe9ff",
+  "theme_color": "#7cc243",
+  "categories": ["education", "kids", "games"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "mundocraft",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MundoCraft: juegos educativos infantiles de matemáticas, letras, sílabas y construcción libre con estética de bloques.",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "icons": "node scripts/make-icons.mjs"
+  },
+  "dependencies": {
+    "vue": "^3.5.45"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.5",
+    "@vitejs/plugin-vue": "^6.0.11",
+    "tailwindcss": "^4.3.5",
+    "vite": "^8.3.8"
+  }
+}
