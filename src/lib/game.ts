@@ -11,7 +11,9 @@ import { sfx } from './sfx'
  */
 export function useGame<T>(id: string, total: number, make: (index: number, level: 1 | 2 | 3) => T) {
   const mission = inject<MissionCtx | null>(MISSION_KEY, null)
-  const level = levelOf(id)
+  // Missions carry their own rank level; normal games grow from progress.
+  const currentLevel = () => mission?.level ?? levelOf(id)
+  const level = currentLevel()
   // A mission is a short burst: at most three rounds per challenge.
   const rounds = mission ? Math.min(total, 3) : total
   const index = ref(0)
@@ -66,7 +68,7 @@ export function useGame<T>(id: string, total: number, make: (index: number, leve
     finished.value = false
     celebrate.value = false
     motivate('cheer')
-    task.value = make(0, levelOf(id))
+    task.value = make(0, currentLevel())
   }
 
   motivate('cheer')

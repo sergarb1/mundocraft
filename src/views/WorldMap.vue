@@ -70,7 +70,7 @@ const zones = computed(() =>
         <span class="mission-banner-emoji" aria-hidden="true">🎯</span>
         <span class="flex-1 min-w-0 text-left">
           <span class="mission-banner-name">Misiones</span>
-          <span class="mission-banner-sub">3 pruebas sorpresa</span>
+          <span class="mission-banner-sub">3 pruebas · elige rango</span>
         </span>
         <span class="mission-banner-go" aria-hidden="true">▶</span>
       </button>

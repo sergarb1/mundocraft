@@ -3,7 +3,7 @@ import { computed, onMounted, provide, ref } from 'vue'
 import Celebration from '../components/Celebration.vue'
 import { gameById, gamesOf, type GameDef } from '../games/registry'
 import { goMap, type SectionId } from '../lib/nav'
-import { MISSION_KEY } from '../lib/mission'
+import { MISSION_KEY, MISSION_RANKS, missionRank, type MissionRankId } from '../lib/mission'
 import { SECTION_META } from '../lib/sections'
 import { motivation, motivate } from '../lib/praise'
 import { pick, shuffle } from '../lib/rand'
@@ -16,9 +16,11 @@ const ZONES: SectionId[] = ['math', 'letters', 'syllables']
 type Phase = 'briefing' | 'play' | 'between' | 'complete'
 
 const phase = ref<Phase>('briefing')
+const rankId = ref<MissionRankId>('madera')
 const ids = ref<string[]>([])
 const current = ref(0)
 
+const rank = computed(() => missionRank(rankId.value))
 const games = computed(() =>
   ids.value.map((id) => gameById(id)).filter((game): game is GameDef => Boolean(game)),
 )
@@ -28,16 +30,30 @@ const leftLabel = computed(() =>
   left.value === 1 ? 'Queda 1 prueba' : `Quedan ${left.value} pruebas`,
 )
 
+function pickFor(section: SectionId): GameDef {
+  const pool = gamesOf(section).filter((game) => game.tier === rank.value.tier)
+  return pick(pool.length ? pool : gamesOf(section))
+}
+
 function roll() {
-  ids.value = shuffle(ZONES).map((section) => pick(gamesOf(section)).id)
+  ids.value = shuffle(ZONES).map((section) => pickFor(section).id)
   current.value = 0
+}
+
+function selectRank(id: MissionRankId) {
+  if (id === rankId.value) return
+  rankId.value = id
+  roll()
+  motivate('cheer')
+  sfx.tap()
+  speak(`Rango ${rank.value.name}. ${rank.value.desc}.`)
 }
 
 function newMission() {
   roll()
   phase.value = 'briefing'
   motivate('cheer')
-  speak('¡Otra misión! Tres pruebas nuevas.')
+  speak(`¡Otra misión! Rango ${rank.value.name}. Tres pruebas nuevas.`)
 }
 
 function start() {
@@ -56,6 +72,9 @@ function advance() {
 }
 
 provide(MISSION_KEY, {
+  get level() {
+    return rank.value.level
+  },
   done: () => {
     const isLast = current.value + 1 >= games.value.length
     phase.value = isLast ? 'complete' : 'between'
@@ -66,7 +85,7 @@ provide(MISSION_KEY, {
 onMounted(() => {
   roll()
   motivate('cheer')
-  speak('¡Misión sorpresa! Tres pruebas de distintos mundos. Toca empezar cuando quieras.')
+  speak(`¡Misión sorpresa! Rango ${rank.value.name}. Tres pruebas de distintos mundos. Toca empezar cuando quieras.`)
 })
 </script>
 
@@ -77,7 +96,7 @@ onMounted(() => {
       <div class="section-icon zone-gold">🎯</div>
       <div class="flex-1 min-w-0">
         <h1 class="section-title">Misión sorpresa</h1>
-        <p class="section-sub">3 pruebas de distintos mundos</p>
+        <p class="section-sub">{{ rank.emoji }} Rango {{ rank.name }} · 3 pruebas</p>
       </div>
       <div class="star-badge"><span>★</span>{{ totalStars }}</div>
     </header>
@@ -94,6 +113,28 @@ onMounted(() => {
         🔊
       </button>
     </div>
+
+    <section class="mission-ranks" aria-labelledby="mission-ranks-title">
+      <div class="mission-ranks-head">
+        <span id="mission-ranks-title" class="mission-ranks-title">Elige tu rango</span>
+        <span class="mission-ranks-note" aria-live="polite">{{ rank.desc }}</span>
+      </div>
+      <div class="mission-rank-grid">
+        <button
+          v-for="r in MISSION_RANKS"
+          :key="r.id"
+          type="button"
+          class="mission-rank"
+          :class="[`rank-${r.id}`, { 'mission-rank-on': r.id === rankId }]"
+          :aria-pressed="r.id === rankId"
+          :aria-label="`Rango ${r.name}: ${r.desc}`"
+          @click="selectRank(r.id)"
+        >
+          <span class="mission-rank-emoji" aria-hidden="true">{{ r.emoji }}</span>
+          <span class="mission-rank-name">{{ r.name }}</span>
+        </button>
+      </div>
+    </section>
 
     <ol class="mission-list">
       <li v-for="(step, i) in games" :key="step.id" class="mission-card">
@@ -133,7 +174,7 @@ onMounted(() => {
     v-else-if="phase === 'complete'"
     emoji="🏆"
     title="¡Misión completada!"
-    :sub="`Has superado las ${games.length} pruebas`"
+    :sub="`Rango ${rank.name} · ${games.length} pruebas superadas`"
     again-label="🎯 Otra misión"
     home-label="🏠 Mapa"
     @again="newMission"
