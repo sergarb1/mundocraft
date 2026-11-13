@@ -18,7 +18,7 @@ const props = withDefaults(
     completeRatio: 0.85,
     showStart: true,
     freeMode: false,
-    color: '#f97316',
+    color: '#1d4ed8',
     hint: 'Repasa con el dedo',
   },
 )

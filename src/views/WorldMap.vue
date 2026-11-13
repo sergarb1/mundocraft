@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { openSection, SECTIONS, type SectionId } from '../lib/nav'
 import { SECTION_META } from '../lib/sections'
 import { sectionGameIds } from '../games/registry'
 import { progress, sectionStars, toggleSound, toggleVoice, totalStars } from '../lib/progress'
 import { cubeArt, farmArt, tex } from '../lib/art'
+import { motivate, motivation } from '../lib/praise'
 
 const ZONE_ART: Record<SectionId, { texture: string; cube: string; deco?: string }> = {
   math: { texture: 'grass_top', cube: 'gold_block', deco: 'sunflower' },
@@ -12,6 +13,15 @@ const ZONE_ART: Record<SectionId, { texture: string; cube: string; deco?: string
   syllables: { texture: 'farmland', cube: 'hay', deco: 'chicken' },
   build: { texture: 'cobblestone', cube: 'crafting_table', deco: 'pickaxe' },
 }
+
+let cheerTimer = 0
+
+onMounted(() => {
+  motivate('cheer')
+  cheerTimer = window.setInterval(() => motivate('cheer'), 9000)
+})
+
+onBeforeUnmount(() => window.clearInterval(cheerTimer))
 
 const zones = computed(() =>
   SECTIONS.map((id: SectionId) => {
@@ -101,7 +111,7 @@ const zones = computed(() =>
         </div>
       </div>
 
-      <p class="map-tip">⛏️ Elige qué quieres aprender hoy</p>
+      <p class="map-tip">⛏️ {{ motivation.text }}</p>
     </main>
   </div>
 </template>

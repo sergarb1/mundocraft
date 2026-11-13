@@ -63,7 +63,7 @@ function choose(letter: string) {
   >
     <div class="flex flex-1 flex-col justify-center gap-4">
       <div class="panel mx-auto flex w-full max-w-xs items-center justify-center gap-3 px-4 py-3">
-        <span class="text-xs font-extrabold uppercase tracking-wide opacity-55">Busca</span>
+        <span class="text-xs font-extrabold uppercase tracking-wide opacity-75">Busca</span>
         <span class="tile tile-lg tone-wood" style="cursor: default">{{ task.target }}</span>
       </div>
 

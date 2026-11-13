@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import Celebration from './Celebration.vue'
 import { speak } from '../lib/speech'
+import { motivation } from '../lib/praise'
 
 const props = withDefaults(
   defineProps<{
@@ -51,6 +52,19 @@ const sentence = computed(() => props.speech || props.instruction)
       <button type="button" class="instruction" @pointerdown.prevent="speak(sentence)">
         <span class="instruction-emoji">{{ emoji }}</span>
         <span class="instruction-text">{{ instruction }}</span>
+      </button>
+    </div>
+
+    <div class="cheer-row" aria-live="polite">
+      <span aria-hidden="true">💛</span>
+      <span :key="motivation.n" class="cheer-text">{{ motivation.text }}</span>
+      <button
+        type="button"
+        class="cheer-speak"
+        :aria-label="`Escuchar: ${motivation.text}`"
+        @pointerdown.prevent="speak(motivation.text)"
+      >
+        🔊
       </button>
     </div>
 

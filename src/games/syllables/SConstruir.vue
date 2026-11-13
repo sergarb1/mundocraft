@@ -22,8 +22,9 @@ const { task, index, total, celebrate, solve, miss, restart } = useGame('s-const
 const placed = ref(0)
 const used = ref<number[]>([])
 const wrong = ref<string | null>(null)
+const badSlot = ref<number | null>(null)
 
-const instruction = computed(() => 'Junta las sílabas en orden')
+const instruction = computed(() => 'Arrastra las sílabas en orden')
 const done = computed(() => placed.value === task.value.word.parts.length)
 
 watch(
@@ -32,26 +33,35 @@ watch(
     placed.value = 0
     used.value = []
     wrong.value = null
+    badSlot.value = null
     speak(`Construye la palabra ${t.word.word}`)
   },
   { immediate: true },
 )
 
-function tapSyllable(value: string, trayIndex: number) {
-  if (used.value.includes(trayIndex) || done.value) return
-  const expected = task.value.word.parts[placed.value]
-  if (value === expected) {
-    used.value = [...used.value, trayIndex]
-    placed.value += 1
-    sfx.tap()
-    if (placed.value === task.value.word.parts.length) solve()
-    return
-  }
+function flashBad(value: string, slot: number) {
   wrong.value = value
+  badSlot.value = slot
   miss()
   window.setTimeout(() => {
     if (wrong.value === value) wrong.value = null
+    if (badSlot.value === slot) badSlot.value = null
   }, 600)
+}
+
+function dropSyllable(value: string, zone: string | null) {
+  const match = /^slot-(\d+)$/.exec(zone ?? '')
+  if (!match || done.value) return
+  const pos = Number(match[1])
+  if (pos < placed.value) return
+  if (pos !== placed.value || value !== task.value.word.parts[pos]) {
+    flashBad(value, pos)
+    return
+  }
+  used.value = [...used.value, task.value.tray.indexOf(value)]
+  placed.value += 1
+  sfx.tap()
+  if (placed.value === task.value.word.parts.length) solve()
 }
 </script>
 
@@ -70,13 +80,18 @@ function tapSyllable(value: string, trayIndex: number) {
       <div class="panel mx-auto flex w-full max-w-sm flex-col items-center gap-3 px-4 py-4">
         <span class="text-5xl leading-none">{{ task.word.emoji }}</span>
         <div class="flex flex-wrap items-center justify-center gap-1.5">
-          <span
+          <div
             v-for="(part, i) in task.word.parts"
             :key="i"
-            :class="i < placed ? 'tile tile-md tone-grass tile-ok' : 'slot h-[72px] w-20 text-xl'"
+            :data-drop="`slot-${i}`"
+            :class="[
+              i < placed ? 'tile tile-md tone-grass tile-ok' : 'slot h-[72px] w-20',
+              badSlot === i && i >= placed ? 'slot-bad' : '',
+            ]"
           >
-            {{ i < placed ? part : '?' }}
-          </span>
+            <span v-if="i < placed" class="anim-pop text-2xl">{{ part }}</span>
+            <span v-else class="text-xl font-black opacity-60">?</span>
+          </div>
         </div>
       </div>
 
@@ -88,8 +103,10 @@ function tapSyllable(value: string, trayIndex: number) {
           :label="syl"
           size="lg"
           tone="wood"
+          draggable
+          :ghost-id="`syl-${i}`"
           :state="wrong === syl ? 'bad' : 'idle'"
-          @pick="tapSyllable(syl, i)"
+          @drop="dropSyllable(syl, $event)"
         />
       </div>
     </div>

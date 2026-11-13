@@ -1,5 +1,7 @@
 import { ref, type Ref } from 'vue'
 import { completeSession, levelOf } from './progress'
+import { motivate } from './praise'
+import { speak } from './speech'
 import { sfx } from './sfx'
 
 /**
@@ -21,12 +23,14 @@ export function useGame<T>(id: string, total: number, make: (index: number, leve
     celebrate.value = true
     completeSession(id)
     sfx.win()
+    speak(motivate('praise'))
   }
 
   function solve() {
     if (locked || finished.value) return
     locked = true
     sfx.correct()
+    motivate('praise')
     window.clearTimeout(timer)
     if (index.value + 1 >= total) {
       window.setTimeout(finish, 480)
@@ -43,6 +47,7 @@ export function useGame<T>(id: string, total: number, make: (index: number, leve
     if (locked || finished.value) return
     mistakes.value += 1
     sfx.wrong()
+    motivate('encourage')
   }
 
   function restart() {
@@ -52,8 +57,11 @@ export function useGame<T>(id: string, total: number, make: (index: number, leve
     mistakes.value = 0
     finished.value = false
     celebrate.value = false
+    motivate('cheer')
     task.value = make(0, levelOf(id))
   }
+
+  motivate('cheer')
 
   return {
     id,

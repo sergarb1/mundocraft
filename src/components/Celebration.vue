@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { motivation } from '../lib/praise'
 
 defineProps<{ stars?: number }>()
 const emit = defineEmits<{ again: []; home: [] }>()
-
-const messages = ['¡Genial!', '¡Muy bien!', '¡Lo lograste!', '¡Increíble!']
-const text = messages[Math.floor(Math.random() * messages.length)]
 
 const colors = ['#ffc93c', '#ff7b8a', '#6cc7f5', '#8fdc5b', '#c58cff', '#ffa94d']
 const pieces = computed(() =>
@@ -39,7 +37,7 @@ const pieces = computed(() =>
     </div>
     <div class="celebrate-card">
       <div class="celebrate-star">🌟</div>
-      <h2 class="celebrate-title">{{ text }}</h2>
+      <h2 class="celebrate-title">{{ motivation.text }}</h2>
       <p class="celebrate-sub">Has ganado una estrella</p>
       <div class="celebrate-actions">
         <button type="button" class="big-btn tone-grass" @click="emit('again')">🔄 Otra vez</button>
