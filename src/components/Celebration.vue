@@ -56,6 +56,7 @@ const pieces = computed(() =>
       <div class="celebrate-star">{{ emoji }}</div>
       <h2 class="celebrate-title">{{ title || motivation.text }}</h2>
       <p class="celebrate-sub">{{ sub || 'Has ganado una estrella' }}</p>
+      <slot />
       <div class="celebrate-actions">
         <button type="button" class="big-btn tone-grass" @click="emit('again')">
           {{ againLabel }}

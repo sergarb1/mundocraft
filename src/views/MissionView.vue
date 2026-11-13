@@ -9,7 +9,7 @@ import { motivation, motivate } from '../lib/praise'
 import { pick, shuffle } from '../lib/rand'
 import { speak } from '../lib/speech'
 import { sfx } from '../lib/sfx'
-import { totalStars } from '../lib/progress'
+import { awardDiamondMission, diamondMedals, totalStars } from '../lib/progress'
 
 const ZONES: SectionId[] = ['math', 'letters', 'syllables']
 
@@ -78,7 +78,13 @@ provide(MISSION_KEY, {
   done: () => {
     const isLast = current.value + 1 >= games.value.length
     phase.value = isLast ? 'complete' : 'between'
-    if (isLast) speak('¡Misión completada! Has superado las tres pruebas.')
+    if (!isLast) return
+    if (rank.value.id === 'diamante') {
+      awardDiamondMission()
+      speak('¡Misión completada! Has ganado una medalla Diamante.')
+    } else {
+      speak('¡Misión completada! Has superado las tres pruebas.')
+    }
   },
 })
 
@@ -179,5 +185,15 @@ onMounted(() => {
     home-label="🏠 Mapa"
     @again="newMission"
     @home="goMap"
-  />
+  >
+    <div v-if="rank.id === 'diamante'" class="diamond-medal" role="status">
+      <span class="diamond-medal-icon" aria-hidden="true">💎</span>
+      <span class="diamond-medal-copy">
+        <span class="diamond-medal-name">Medalla Diamante</span>
+        <span class="diamond-medal-note">
+          {{ diamondMedals === 1 ? '¡Primera misión Diamante superada!' : `${diamondMedals} misiones Diamante superadas` }}
+        </span>
+      </span>
+    </div>
+  </Celebration>
 </template>

@@ -5,12 +5,13 @@ const KEY = 'mundocraft.progress.v1'
 type ProgressData = {
   plays: Record<string, number>
   stars: Record<string, number>
+  diamondMissions: number
   build: string | null
   settings: { voice: boolean; sound: boolean }
 }
 
 function defaults(): ProgressData {
-  return { plays: {}, stars: {}, build: null, settings: { voice: true, sound: true } }
+  return { plays: {}, stars: {}, diamondMissions: 0, build: null, settings: { voice: true, sound: true } }
 }
 
 function load(): ProgressData {
@@ -22,6 +23,7 @@ function load(): ProgressData {
     return {
       plays: saved.plays ?? {},
       stars: saved.stars ?? {},
+      diamondMissions: saved.diamondMissions ?? 0,
       build: saved.build ?? null,
       settings: { ...base.settings, ...(saved.settings ?? {}) },
     }
@@ -61,6 +63,13 @@ export function completeSession(id: string) {
 export const totalStars = computed(() =>
   Object.values(progress.stars).reduce((sum, n) => sum + n, 0),
 )
+
+/** Every completed Diamond mission earns a persistent medal. */
+export function awardDiamondMission() {
+  progress.diamondMissions += 1
+}
+
+export const diamondMedals = computed(() => progress.diamondMissions)
 
 export function sectionStars(ids: string[]) {
   return ids.reduce((sum, id) => sum + (progress.stars[id] ?? 0), 0)

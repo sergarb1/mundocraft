@@ -72,6 +72,13 @@ const zones = computed(() =>
           <span class="mission-banner-name">Misiones</span>
           <span class="mission-banner-sub">3 pruebas · elige rango</span>
         </span>
+        <span
+          v-if="progress.diamondMissions > 0"
+          class="mission-medal"
+          :aria-label="`${progress.diamondMissions} medallas Diamante`"
+        >
+          <span aria-hidden="true">💎</span>{{ progress.diamondMissions }}
+        </span>
         <span class="mission-banner-go" aria-hidden="true">▶</span>
       </button>
 
