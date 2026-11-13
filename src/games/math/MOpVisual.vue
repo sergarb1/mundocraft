@@ -5,7 +5,7 @@ import BlockTile from '../../components/BlockTile.vue'
 import Pictogram from '../../components/Pictogram.vue'
 import { useGame } from '../../lib/game'
 import { goMap } from '../../lib/nav'
-import { nearbyDistractors, pick, ri, shuffle } from '../../lib/rand'
+import { nearbyDistractors, pick, ri } from '../../lib/rand'
 import { speak } from '../../lib/speech'
 import { sfx } from '../../lib/sfx'
 
@@ -31,7 +31,9 @@ function make(_index: number, level: 1 | 2 | 3): Task {
   while (pairs.length < 3) {
     pairs.push({ id: pairs.length, a: pairs.length + 1, b: 1, item: 'sunflower' })
   }
-  return { pairs, ops: shuffle(pairs) }
+  // Rotate the operations so none sits beside its own drawing.
+  const offset = pairs.length > 1 ? ri(1, pairs.length - 1) : 0
+  return { pairs, ops: pairs.map((_, i) => pairs[(i + offset) % pairs.length]) }
 }
 
 const { task, index, total, celebrate, solve, miss, restart } = useGame('m-opvisual', 5, make)
