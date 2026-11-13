@@ -4,12 +4,75 @@
  * MundoCraft design system: chunky voxel-ish blocks, big touch targets
  * ------------------------------------------------------------------ */
 
+@font-face {
+  font-family: "Andika";
+  src: url("./assets/fonts/andika-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Andika";
+  src: url("./assets/fonts/andika-bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("./assets/fonts/opendyslexic-regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "OpenDyslexic";
+  src: url("./assets/fonts/opendyslexic-bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 :root {
   --ink: #2b2118;
   --paper: #fffdf5;
   --grass: #7cc243;
   --grass-dark: #4c8b24;
   --sky: #9fd6ff;
+  --font-redonda: ui-rounded, "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-escolar: "Andika", "Trebuchet MS", "Segoe UI", system-ui, sans-serif;
+  --font-dislexia: "OpenDyslexic", Verdana, "Segoe UI", system-ui, sans-serif;
+  --reading-font: var(--font-redonda);
+  --reading-spacing: 0em;
+  --reading-word-spacing: normal;
+  --font-scale: 1;
+  --size-scale: 1;
+}
+
+html {
+  font-size: calc(16px * var(--size-scale) * var(--font-scale));
+}
+
+html[data-font="escolar"] {
+  --reading-font: var(--font-escolar);
+}
+
+html[data-font="dislexia"] {
+  --reading-font: var(--font-dislexia);
+  --reading-spacing: 0.015em;
+  --reading-word-spacing: 0.06em;
+  --font-scale: 0.95;
+}
+
+html[data-text-size="pequena"] {
+  --size-scale: 0.9;
+}
+
+html[data-text-size="grande"] {
+  --size-scale: 1.2;
 }
 
 * {
@@ -23,7 +86,9 @@ body {
 
 body {
   margin: 0;
-  font-family: ui-rounded, "Trebuchet MS", "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family: var(--reading-font);
+  letter-spacing: var(--reading-spacing);
+  word-spacing: var(--reading-word-spacing);
   color: var(--ink);
   background:
     radial-gradient(120% 75% at 50% 0%, #eafaff 0%, #c3eaff 45%, #9fd6ff 100%);
@@ -78,6 +143,13 @@ p {
 
 .star-badge span {
   color: #f2a91c;
+}
+
+.reading-btn {
+  font-family: var(--font-redonda);
+  font-size: 1rem;
+  font-weight: 900;
+  letter-spacing: -0.06em;
 }
 
 .icon-btn {
@@ -1436,6 +1508,278 @@ p {
   animation: pop 0.35s ease-out;
 }
 
+/* ------------------------------ reading panel ------------------------------ */
+
+.reading-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 14px;
+  background: rgba(20, 14, 8, 0.48);
+  backdrop-filter: blur(3px);
+}
+
+.reading-card {
+  width: 100%;
+  max-width: 420px;
+  max-height: 92dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--paper);
+  border: 5px solid rgba(43, 33, 24, 0.16);
+  border-radius: 26px;
+  box-shadow: 0 12px 0 rgba(43, 33, 24, 0.22);
+  padding: 1rem;
+  animation: bounce-in 0.28s ease-out;
+}
+
+.reading-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.reading-head-copy {
+  flex: 1;
+  min-width: 0;
+}
+
+.reading-kicker {
+  display: block;
+  color: #8a6a12;
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reading-title {
+  margin-top: 1px;
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.reading-sub {
+  margin-top: 3px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  opacity: 0.68;
+}
+
+.reading-close {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  border-radius: 14px;
+  background: #fff7df;
+  border: 3px solid rgba(43, 33, 24, 0.14);
+  box-shadow: 0 3px 0 rgba(43, 33, 24, 0.12);
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  font-weight: 900;
+}
+
+.reading-close:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 rgba(43, 33, 24, 0.12);
+}
+
+.reading-section {
+  margin-top: 14px;
+}
+
+.reading-label {
+  margin: 0 0 6px 2px;
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.6;
+}
+
+.reading-fonts,
+.reading-sizes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 7px;
+}
+
+.reading-font {
+  position: relative;
+  min-height: 98px;
+  padding: 7px 3px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border-radius: 15px;
+  border: 3px solid rgba(43, 33, 24, 0.16);
+  background: #fff8e8;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.7);
+  transition: border-color 0.12s, background 0.12s, transform 0.08s;
+}
+
+.reading-font:active,
+.reading-size:active,
+.reading-toggle:active {
+  transform: translateY(2px);
+}
+
+.reading-font-redonda {
+  font-family: var(--font-redonda);
+}
+
+.reading-font-escolar {
+  font-family: var(--font-escolar);
+}
+
+.reading-font-dislexia {
+  font-family: var(--font-dislexia);
+}
+
+.reading-font-sample {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.reading-font-name {
+  font-size: 0.78rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.reading-font-note {
+  max-width: 100%;
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1.05;
+  text-align: center;
+  opacity: 0.65;
+}
+
+.reading-on {
+  border-color: #e3a008;
+  background: #fff0b8;
+  outline: 3px solid rgba(242, 169, 28, 0.4);
+  outline-offset: 1px;
+}
+
+.reading-check {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  border: 2px solid #fff;
+  background: #2f9e44;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 0.64rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.reading-size {
+  position: relative;
+  min-height: 66px;
+  padding: 3px 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  border-radius: 15px;
+  border: 3px solid rgba(43, 33, 24, 0.16);
+  background: #fff8e8;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.7);
+  transition: border-color 0.12s, background 0.12s, transform 0.08s;
+}
+
+.reading-size-sample {
+  font-weight: 900;
+  line-height: 1;
+}
+
+.reading-size-pequena .reading-size-sample {
+  font-size: 0.95rem;
+}
+
+.reading-size-normal .reading-size-sample {
+  font-size: 1.3rem;
+}
+
+.reading-size-grande .reading-size-sample {
+  font-size: 1.7rem;
+}
+
+.reading-size-name {
+  font-size: 0.68rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.reading-sounds {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.reading-toggle {
+  min-height: 56px;
+  padding: 0 9px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 15px;
+  border: 3px solid rgba(43, 33, 24, 0.14);
+  background: #fff8e8;
+  font-size: 0.82rem;
+  font-weight: 900;
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.7);
+  transition: opacity 0.12s, transform 0.08s;
+}
+
+.reading-toggle-emoji {
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.reading-toggle-state {
+  margin-left: auto;
+  font-size: 0.64rem;
+  font-weight: 900;
+  opacity: 0.62;
+}
+
+.reading-off {
+  opacity: 0.5;
+}
+
+.reading-tip {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  opacity: 0.5;
+}
+
+html[data-font="dislexia"] .instruction-text,
+html[data-font="dislexia"] .game-desc,
+html[data-font="dislexia"] .section-sub,
+html[data-font="dislexia"] .mission-banner-sub {
+  line-height: 1.35;
+}
+
 /* ------------------------------- pixel extras ------------------------------ */
 
 .picto {
@@ -1578,6 +1922,14 @@ body.has-selection [data-drop] {
   100% {
     transform: scale(1.9);
     opacity: 0;
+  }
+}
+
+/* On phones the header also carries Aa and the star badge. The section emoji
+   is decorative, so give the title the room instead of squeezing it. */
+@media (max-width: 430px) {
+  .section-head .section-icon {
+    display: none;
   }
 }
 

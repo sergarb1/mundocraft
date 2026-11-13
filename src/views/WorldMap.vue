@@ -3,10 +3,11 @@ import { computed, onBeforeUnmount, onMounted } from 'vue'
 import { openMission, openSection, SECTIONS, type SectionId } from '../lib/nav'
 import { SECTION_META } from '../lib/sections'
 import { sectionGameIds } from '../games/registry'
-import { progress, sectionStars, toggleSound, toggleVoice, totalStars } from '../lib/progress'
+import { progress, sectionStars, totalStars } from '../lib/progress'
 import { cubeArt, farmArt, tex } from '../lib/art'
 import { motivate, motivation } from '../lib/praise'
 import { install, installApp, showInstall } from '../lib/install'
+import ReadingButton from '../components/ReadingButton.vue'
 
 const ZONE_ART: Record<SectionId, { texture: string; cube: string; deco?: string }> = {
   math: { texture: 'grass_top', cube: 'gold_block', deco: 'sunflower' },
@@ -45,24 +46,7 @@ const zones = computed(() =>
         <p class="text-xs font-extrabold opacity-55">Toca un bloque y juega</p>
       </div>
       <div class="star-badge"><span>★</span>{{ totalStars }}</div>
-      <button
-        type="button"
-        class="icon-btn"
-        :class="{ 'icon-btn-off': !progress.settings.voice }"
-        :aria-label="progress.settings.voice ? 'Silenciar la voz' : 'Activar la voz'"
-        @click="toggleVoice"
-      >
-        {{ progress.settings.voice ? '🗣️' : '🤐' }}
-      </button>
-      <button
-        type="button"
-        class="icon-btn"
-        :class="{ 'icon-btn-off': !progress.settings.sound }"
-        :aria-label="progress.settings.sound ? 'Silenciar los sonidos' : 'Activar los sonidos'"
-        @click="toggleSound"
-      >
-        {{ progress.settings.sound ? '🔔' : '🔇' }}
-      </button>
+      <ReadingButton />
     </header>
 
     <main class="flex flex-1 flex-col justify-center">

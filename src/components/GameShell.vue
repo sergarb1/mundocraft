@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import Celebration from './Celebration.vue'
 import { speak } from '../lib/speech'
 import { motivation } from '../lib/praise'
+import ReadingButton from './ReadingButton.vue'
 
 const props = withDefaults(
   defineProps<{
@@ -44,6 +45,7 @@ const sentence = computed(() => props.speech || props.instruction)
       >
         🔊
       </button>
+      <ReadingButton />
     </header>
 
     <p v-if="title" class="game-title">{{ title }}</p>

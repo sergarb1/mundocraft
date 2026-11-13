@@ -35,7 +35,7 @@ src/
   main.ts            monta la app y registra el SW en producción
   App.vue            elige mapa / sección / juego
   views/             WorldMap, SectionView, GameView
-  games/registry.ts  catálogo de los 28 juegos (id, zona, nombre, componente)
+  games/registry.ts  catálogo de los 31 juegos (id, zona, nombre, componente)
   games/<zona>/      math (12), letters (8), syllables (7), build (1)
   components/        GameShell, BlockTile, TracePad, Celebration, DragGhost, Pictogram
   lib/               nav (hash), progress, game (bucle), drag, strokes, speech, sfx, art, rand
@@ -105,4 +105,4 @@ Comprobaciones que han detectado fallos reales: `overflowX`, carteles que desbor
 - Componentes y variables en inglés; textos visibles en español.
 - Commits en estilo `feat:`, `fix:` o `docs:`, en español y describiendo el porqué.
 - No commitear `node_modules/`, `dist/` ni capturas temporales.
-- No añadir dependencias, backend, fuentes web ni un router externo sin necesidad demostrable.
+- No añadir dependencias, backend ni fuentes externas sin necesidad demostrable. Las tipografías de lectura se sirven localmente desde `src/assets/fonts/`.

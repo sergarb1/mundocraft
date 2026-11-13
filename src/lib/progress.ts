@@ -2,16 +2,30 @@ import { computed, reactive, watch } from 'vue'
 
 const KEY = 'mundocraft.progress.v1'
 
+export type ReadingFont = 'redonda' | 'escolar' | 'dislexia'
+export type ReadingSize = 'pequena' | 'normal' | 'grande'
+
 type ProgressData = {
   plays: Record<string, number>
   stars: Record<string, number>
   diamondMissions: number
   build: string | null
-  settings: { voice: boolean; sound: boolean }
+  settings: {
+    voice: boolean
+    sound: boolean
+    font: ReadingFont
+    textSize: ReadingSize
+  }
 }
 
 function defaults(): ProgressData {
-  return { plays: {}, stars: {}, diamondMissions: 0, build: null, settings: { voice: true, sound: true } }
+  return {
+    plays: {},
+    stars: {},
+    diamondMissions: 0,
+    build: null,
+    settings: { voice: true, sound: true, font: 'redonda', textSize: 'normal' },
+  }
 }
 
 function load(): ProgressData {

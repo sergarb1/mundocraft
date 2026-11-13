@@ -7,7 +7,7 @@
 
 ## Estado actual
 
-Aplicación completa, publicada y usable: mapa de 4 zonas, **28 minijuegos**, progreso local con 3 niveles, voz y sonidos, PWA offline y despliegue automático en GitHub Pages.
+Aplicación completa, publicada y usable: mapa de 4 zonas, **31 minijuegos**, progreso local con 3 niveles, voz y sonidos, lectura adaptable, PWA offline y despliegue automático en GitHub Pages.
 
 Lo último que se hizo:
 
@@ -28,7 +28,7 @@ npm run build      # dist/
 npm run preview    # sirve dist/
 ```
 
-Rutas de prueba: `/` (mapa), `#/math/m-cantidad`, `#/math/m-contar`, `#/letters/l-repasar`, `#/syllables/s-construir`, `#/build`.
+Rutas de prueba: `/` (mapa), `#/math/m-cantidad`, `#/math/m-contar`, `#/letters/l-repasar`, `#/syllables/s-construir`, `#/syllables/s-frases`, `#/build`.
 
 ## Cómo está montado
 
@@ -36,7 +36,7 @@ Rutas de prueba: `/` (mapa), `#/math/m-cantidad`, `#/math/m-contar`, `#/letters/
 src/
   main.ts / App.vue
   views/            WorldMap, SectionView, GameView
-  games/registry.ts catálogo: 12 matemáticas + 8 letras + 7 sílabas + 1 construcción
+  games/registry.ts catálogo: 12 matemáticas + 8 letras + 10 sílabas + 1 construcción
   games/*/          un .vue por juego
   components/       GameShell, BlockTile, TracePad, Celebration, DragGhost, Pictogram
   lib/
@@ -48,7 +48,7 @@ src/
     speech.ts       voz en español (Web Speech API)
     sfx.ts          WebAudio + vibración
     art.ts          rutas y catálogo de arte
-  data/             words.json, syllables.json, letters.json
+  data/             words.json (100 palabras), syllables.json, letters.json, phrases.json
 public/
   art/blocks|cubes|farm   PNG del arte
   sw.js                   service worker
@@ -66,13 +66,13 @@ Decisiones clave:
 
 - Texturas y cubos: **originales**, procedurales (`scripts/make-art.mjs`). No usar material oficial de Minecraft.
 - Granja: **Kenney Tiny Farm, CC0 1.0** (OpenGameArt). Atribución y tabla de tiles en `ASSETS.md`.
-- Emoji del sistema para el resto de pictogramas; sin fuentes web.
+- Emoji del sistema para el resto de pictogramas. Andika y OpenDyslexic se sirven localmente desde `src/assets/fonts/` (SIL OFL 1.1).
 - Si se añade arte: registrar en `src/lib/art.ts`, añadir a `ART` en `public/sw.js` y documentar la licencia.
 
 ## PWA y caché
 
 - `sw.js`: network-first para navegación con fallback a `index.html`; cache-first para estáticos; precache de `CORE` + 33 imágenes de arte.
-- **Al cambiar el shell o el arte, subir `CACHE` a `mundocraft-v3`**; si no, los clientes existentes pueden quedarse con la versión anterior.
+- **Al cambiar el shell o el arte, subir `CACHE` a `mundocraft-v5`**; si no, los clientes existentes pueden quedarse con la versión anterior.
 - El registro del SW solo ocurre en producción (`import.meta.env.PROD`).
 
 ## Despliegue

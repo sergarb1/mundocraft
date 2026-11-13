@@ -1,10 +1,13 @@
 import wordsRaw from './words.json'
 import syllablesRaw from './syllables.json'
 import lettersRaw from './letters.json'
+import phrasesRaw from './phrases.json'
 
 export type Word = { word: string; parts: string[]; emoji: string }
+export type Phrase = { words: string[]; emoji: string }
 
 export const WORDS = wordsRaw as Word[]
+export const PHRASES = phrasesRaw as Phrase[]
 export const FAMILIES = syllablesRaw.families as string[][]
 export const TRACE_SYLLABLES = syllablesRaw.trace as string[]
 export const LOWERCASE = lettersRaw.lowercase as string[]

@@ -7,9 +7,10 @@ App: **[sergarb1.github.io/mundocraft](https://sergarb1.github.io/mundocraft/)**
 ## Cómo está pensada
 
 - El **mapa** solo sirve para elegir qué aprender: cuatro zonas grandes, sin movimiento, sin misiones y sin inventarios.
-- El producto son los **28 minijuegos**: cada uno tiene una mecánica visual (arrastrar, tocar, ordenar, dibujar) y una instrucción corta, con voz en español.
+- El producto son los **31 minijuegos**: cada uno tiene una mecánica visual (arrastrar, tocar, ordenar, dibujar) y una instrucción corta, con voz en español.
 - Sin vidas, sin cronómetros, sin pantallas de derrota. Los errores se corrigen probando otra vez y las pistas aparecen solas.
 - Diseñado primero para **móvil y tablet**: botones grandes (≥ 60 px), `Pointer Events` y **snap** al soltar cerca de una zona, tolerancia amplia al trazar, vibración suave y sin necesidad de zoom.
+- **Lectura adaptable**: tres tipografías incluidas en la app (redonda, escolar y para dislexia) y tres tamaños de texto, con la elección guardada en el dispositivo.
 - Estética de **mundo de bloques** con texturas originales 16×16 (césped, tierra, piedra, tablones, agua…) y sprites CC0 de granja.
 - El progreso (estrellas, nivel adaptativo y mundo construido) se guarda en `localStorage`.
 
@@ -19,10 +20,10 @@ App: **[sergarb1.github.io/mundocraft](https://sergarb1.github.io/mundocraft/)**
 | --- | --- |
 | 🔢 **Matemáticas** | Los números (1–20) · ¿Cuántos hay? · Cuenta y elige · El puente (contar hacia delante) · Cuenta atrás · En orden · Antes y después · La serie · Sumar · Quitar · Cuentas · Cuenta y dibujo |
 | ✏️ **Letras** | La letra (minúsculas) · Parejas mayúscula/minúscula · La letra escondida · Trazos previos · Repasa la letra · Falta un trazo · Escribe sin guía · Sílabas con el dedo |
-| 🗣️ **Sílabas** | La sílaba · ¿Con qué empieza? · Falta una sílaba · Las cestas · Construye · En orden · Palabra y dibujo |
+| 🗣️ **Sílabas** | La sílaba · ¿Con qué empieza? · Cuenta sílabas · Falta una sílaba · Las cestas · Construye · En orden · Frases · La última sílaba · Palabra y dibujo |
 | 🧱 **Construir** | Mundo de bloques 10×10 con paleta de 9 materiales y guardado automático |
 
-La dificultad sube sola: cada juego guarda cuántas sesiones llevas y amplía el rango numérico, el número de elementos o el largo de las palabras (3 niveles).
+La dificultad sube sola: cada juego guarda cuántas sesiones llevas y amplía el rango numérico, el número de elementos o el largo de las palabras (3 niveles). El vocabulario de sílabas incluye 100 palabras de dos a cuatro sílabas, con consonantes y dígrafos variados.
 
 ## Escritura con el dedo
 
@@ -66,13 +67,14 @@ Cada push a `main` compila y publica `dist/` en GitHub Pages mediante `.github/w
 
 ## PWA
 
-`manifest.webmanifest` + service worker (`public/sw.js`): instalable y funcional sin conexión tras la primera visita. La voz y los sonidos se pueden silenciar desde el mapa.
+`manifest.webmanifest` + service worker (`public/sw.js`): instalable y funcional sin conexión tras la primera visita. La voz, los sonidos, la letra y el tamaño del texto se ajustan desde el botón **Aa**.
 
 ## Recursos y licencias
 
 - **Bloques y cubos:** arte original generado en código (`npm run art`).
 - **Animales y cultivos:** Kenney · Tiny Farm, **CC0 1.0** (descargado de OpenGameArt).
 - **Emoji e iconos:** emoji del sistema + iconos propios.
+- **Tipografías de lectura:** Andika y OpenDyslexic, **SIL OFL 1.1**, incluidas localmente para que funcionen sin conexión.
 
 No se usa ningún recurso oficial de Minecraft. Detalle completo en [ASSETS.md](ASSETS.md).
 

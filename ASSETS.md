@@ -7,6 +7,8 @@
 | Bloques y cubos | Generados por `scripts/make-art.mjs` (arte original inspirado en voxel) | Propia / MIT | `public/art/blocks/*.png`, `public/art/cubes/*.png` |
 | Animales, cultivos y herramientas | **Kenney · Tiny Farm** | **CC0 1.0** | `public/art/farm/*.png` |
 | Pictogramas de interfaz | Emoji del sistema operativo | — | Renderizado por el dispositivo |
+| Tipografía escolar | **Andika** (SIL International) | **SIL OFL 1.1** | `src/assets/fonts/andika-*.woff2` |
+| Tipografía para dislexia | **OpenDyslexic** (Abbie Gonzalez) | **SIL OFL 1.1** | `src/assets/fonts/opendyslexic-*.woff2` |
 | Iconos de la app | `public/icon.svg` + `scripts/make-icons.mjs` | Propia / MIT | `public/icon-*.png` |
 
 No se utiliza **ningún recurso oficial de Minecraft**: ni texturas, ni modelos, ni sonidos, ni la marca. El mundo está hecho con texturas de bloques originales dibujadas en código.
@@ -62,7 +64,12 @@ El resto de pictogramas de interfaz (🔢, ✏️, 🗣️, 🏠, 🌟…) son e
 
 ## Tipografía
 
-Pila de fuentes del sistema (`ui-rounded`, Trebuchet MS, Segoe UI): sin fuentes web externas, carga inmediata y offline.
+La opción **Redonda** usa la pila del sistema (`ui-rounded`, Trebuchet MS, Segoe UI). Las opciones **Escolar** y **Dislexia** usan **Andika** y **OpenDyslexic**, servidas localmente desde `src/assets/fonts/`; no se hace ninguna petición a Google Fonts ni a otro servidor externo.
+
+- **Andika** está diseñada para primeros lectores: formas abiertas, letras distinguibles y trazos sencillos.
+- **OpenDyslexic** engrosa la parte inferior de las letras y separa los caracteres para reducir confusiones.
+- Ambas se distribuyen bajo **SIL Open Font License 1.1**. Los textos completos están en `src/assets/fonts/OFL-Andika.txt` y `src/assets/fonts/OFL-OpenDyslexic.txt`.
+- El panel **Aa** permite elegir letra y tres tamaños de texto; la preferencia se guarda con el resto del progreso local.
 
 ## Cómo sustituir o ampliar el arte
 

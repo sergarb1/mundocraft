@@ -1,5 +1,5 @@
 /* MundoCraft service worker: offline support with a small runtime cache. */
-const CACHE = 'mundocraft-v4'
+const CACHE = 'mundocraft-v6'
 const ART = [
   'art/blocks/grass_top.png',
   'art/blocks/dirt.png',

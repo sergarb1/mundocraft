@@ -1,0 +1,22 @@
+[
+  { "words": ["El", "sol", "brilla."], "emoji": "☀️" },
+  { "words": ["La", "luna", "sale."], "emoji": "🌙" },
+  { "words": ["El", "gato", "duerme."], "emoji": "🐱" },
+  { "words": ["La", "flor", "crece."], "emoji": "🌷" },
+  { "words": ["El", "pez", "nada."], "emoji": "🐟" },
+  { "words": ["La", "niña", "canta."], "emoji": "👧" },
+
+  { "words": ["Mamá", "lee", "un", "cuento."], "emoji": "📖" },
+  { "words": ["El", "perro", "corre", "rápido."], "emoji": "🐶" },
+  { "words": ["Papá", "hace", "la", "cena."], "emoji": "👨‍🍳" },
+  { "words": ["La", "rana", "salta", "alto."], "emoji": "🐸" },
+  { "words": ["El", "pájaro", "canta", "alegre."], "emoji": "🐦" },
+  { "words": ["La", "abeja", "busca", "flores."], "emoji": "🐝" },
+
+  { "words": ["El", "gato", "bebe", "su", "leche."], "emoji": "🐱" },
+  { "words": ["La", "niña", "come", "una", "manzana."], "emoji": "🍎" },
+  { "words": ["Mamá", "prepara", "una", "rica", "sopa."], "emoji": "🍲" },
+  { "words": ["Mi", "amigo", "pinta", "un", "dibujo."], "emoji": "🎨" },
+  { "words": ["El", "conejo", "come", "una", "zanahoria."], "emoji": "🥕" },
+  { "words": ["La", "hormiga", "lleva", "una", "hoja."], "emoji": "🐜" }
+]

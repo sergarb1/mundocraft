@@ -10,6 +10,7 @@ import { pick, shuffle } from '../lib/rand'
 import { speak } from '../lib/speech'
 import { sfx } from '../lib/sfx'
 import { awardDiamondMission, diamondMedals, totalStars } from '../lib/progress'
+import ReadingButton from '../components/ReadingButton.vue'
 
 const ZONES: SectionId[] = ['math', 'letters', 'syllables']
 
@@ -105,6 +106,7 @@ onMounted(() => {
         <p class="section-sub">{{ rank.emoji }} Rango {{ rank.name }} · 3 pruebas</p>
       </div>
       <div class="star-badge"><span>★</span>{{ totalStars }}</div>
+      <ReadingButton />
     </header>
 
     <div class="cheer-row" aria-live="polite">

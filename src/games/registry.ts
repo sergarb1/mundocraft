@@ -22,10 +22,13 @@ import LEscribir from './letters/LEscribir.vue'
 import LSilabaTrazos from './letters/LSilabaTrazos.vue'
 import SReconocer from './syllables/SReconocer.vue'
 import SImagen from './syllables/SImagen.vue'
+import SCuentas from './syllables/SCuentas.vue'
 import SFalta from './syllables/SFalta.vue'
 import SClasificar from './syllables/SClasificar.vue'
 import SConstruir from './syllables/SConstruir.vue'
 import SOrdenar from './syllables/SOrdenar.vue'
+import SFrases from './syllables/SFrases.vue'
+import SFinal from './syllables/SFinal.vue'
 import SPalabraImagen from './syllables/SPalabraImagen.vue'
 import BuildGame from './build/BuildGame.vue'
 
@@ -69,10 +72,13 @@ export const GAMES: GameDef[] = [
   // Sílabas y palabras
   { id: 's-reconocer', section: 'syllables', name: 'La sílaba', desc: 'Reconoce sílabas', emoji: '🗣️', tone: 'sky', tier: 1, component: SReconocer },
   { id: 's-imagen', section: 'syllables', name: '¿Con qué empieza?', desc: 'Sílaba e imagen', emoji: '🖼️', tone: 'leaf', tier: 1, component: SImagen },
+  { id: 's-cuentas', section: 'syllables', name: 'Cuenta sílabas', desc: '¿Cuántas sílabas tiene?', emoji: '👏', tone: 'gold', tier: 1, component: SCuentas },
   { id: 's-falta', section: 'syllables', name: 'Falta una sílaba', desc: 'Completa la palabra', emoji: '🧩', tone: 'gold', tier: 2, component: SFalta },
   { id: 's-clasificar', section: 'syllables', name: 'Las cestas', desc: 'Clasifica por sílaba', emoji: '🧺', tone: 'wood', tier: 2, component: SClasificar },
   { id: 's-construir', section: 'syllables', name: 'Construye', desc: 'Junta sílabas', emoji: '🧱', tone: 'rose', tier: 3, component: SConstruir },
   { id: 's-ordenar', section: 'syllables', name: 'En orden', desc: 'Ordena las sílabas', emoji: '🔤', tone: 'purple', tier: 3, component: SOrdenar },
+  { id: 's-frases', section: 'syllables', name: 'Frases', desc: 'Ordena palabras y forma frases', emoji: '📝', tone: 'leaf', tier: 3, component: SFrases },
+  { id: 's-final', section: 'syllables', name: 'La última sílaba', desc: 'Encuentra el final', emoji: '🔚', tone: 'rose', tier: 3, component: SFinal },
   { id: 's-palabra-imagen', section: 'syllables', name: 'Palabra y dibujo', desc: 'Empareja palabra e imagen', emoji: '🎴', tone: 'sky', tier: 2, component: SPalabraImagen },
 
   // Construcción libre

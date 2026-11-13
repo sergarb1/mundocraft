@@ -7,6 +7,7 @@ import { gamesOf, sectionGameIds } from '../games/registry'
 import { progress, sectionStars } from '../lib/progress'
 import { motivate, motivation } from '../lib/praise'
 import { speak } from '../lib/speech'
+import ReadingButton from '../components/ReadingButton.vue'
 
 const props = defineProps<{ section: SectionId }>()
 
@@ -27,7 +28,10 @@ onMounted(() => motivate('cheer'))
         <p class="section-sub">{{ meta.sub }}</p>
       </div>
       <div class="star-badge"><span>★</span>{{ stars }}</div>
-    </header>      <div class="cheer-row" aria-live="polite">
+      <ReadingButton />
+    </header>
+
+    <div class="cheer-row" aria-live="polite">
       <span aria-hidden="true">💛</span>
       <span :key="motivation.n" class="cheer-text">{{ motivation.text }}</span>
       <button
